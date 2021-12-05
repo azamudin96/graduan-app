@@ -20,6 +20,7 @@
     <string name="emptyPassword">Invalid password, please try again.</string>
     <string name="unableFoundCaseType">Unable found case type, please try again</string>
     <string name="noPhotoUploadKey">Please upload or capture at least one picture</string>
+    <string name="errorMessage_noValue">Please input name.</string>
     <string name="errorMessage_InvalidLocationDetails">Please input location details.</string>
     <string name="errorMessage_InvalidCaeDescription">Please input case description.</string>
     <string name="ServerError">Unable connect server, please try again later</string>

@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.graduan.graduanapp.AccountManager
 import com.graduan.graduanapp.MainActivity
+import com.graduan.graduanapp.MyApp
 import com.graduan.graduanapp.R
 import com.graduan.graduanapp.databinding.ActivityLoginBinding
 import com.graduan.graduanapp.model.LoginModel
@@ -35,6 +37,25 @@ class LoginActivity : AppCompatActivity() {
         loginBinding!!.etPassword.setText("password")
 
         loginBinding!!.btnLogin.setOnClickListener {
+
+            if (TextUtils.isEmpty(loginBinding!!.etName.text.toString())) {
+                Toast.makeText(
+                    MyApp.appContext,
+                    R.string.emptyEmail,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            if (TextUtils.isEmpty(loginBinding!!.etPassword.text.toString())) {
+                Toast.makeText(
+                    MyApp.appContext,
+                    R.string.emptyPassword,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
             LoadingDialog.getInstance().with(this@LoginActivity).isLoading
 
             CoroutineScope(Dispatchers.IO).launch {

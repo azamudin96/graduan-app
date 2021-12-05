@@ -2,6 +2,9 @@ package com.graduan.graduanapp.fragment
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -13,13 +16,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.graduan.graduanapp.AccountManager
 import com.graduan.graduanapp.MainActivity
+import com.graduan.graduanapp.MyApp
 import com.graduan.graduanapp.R
+import com.graduan.graduanapp.activity.LoginActivity
 import com.graduan.graduanapp.databinding.ProfileFragmentBinding
 import com.graduan.graduanapp.utils.LoadingDialog
 import com.master.permissionhelper.PermissionHelper
@@ -28,6 +35,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class ProfileFragment : Fragment() {
 
@@ -39,6 +47,7 @@ class ProfileFragment : Fragment() {
 
     lateinit var navController: NavController
     private lateinit var profileFragmentBinding: ProfileFragmentBinding
+    private var email: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +72,7 @@ class ProfileFragment : Fragment() {
                     .into(profileFragmentBinding.imgUser);
 
                 profileFragmentBinding.tvName.text = response.name
+                email = response.email
             }
         })
 
@@ -84,7 +94,15 @@ class ProfileFragment : Fragment() {
         }
 
         profileFragmentBinding.llAboutMe.setOnClickListener {
-            navController.navigate(R.id.action_mainFragment_to_viewEditProfileFragment)
+            val bundle = bundleOf(
+                "name" to profileFragmentBinding.tvName.text.toString(),
+                "email" to email
+            )
+            navController.navigate(R.id.action_mainFragment_to_viewEditProfileFragment,bundle)
+        }
+
+        profileFragmentBinding.llLogout.setOnClickListener {
+            logOut()
         }
     }
 
@@ -122,4 +140,33 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
+
+    fun logOut() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle("Logout")
+            .setMessage("Are you sure to logout?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, which ->
+                CoroutineScope(IO).launch {
+                    val response = mainViewModel.signOut()
+
+                    withContext(Main) {
+                        if (response == "Success") {
+                            AccountManager.instance.setSingleSignOn(false)
+                            startActivity(Intent(activity, LoginActivity::class.java))
+                            activity!!.finish()
+                            Toast.makeText(context, "Successfully Logout", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, "Fail to logout", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+            }
+            .setNegativeButton("No") { dialog, which -> }
+        //Creating dialog box
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 }

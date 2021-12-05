@@ -61,16 +61,17 @@ class MainViewModel : ViewModel() {
     }
 
     suspend fun uploadImage(uri: String): String {
-        var response = ""
-        withContext(Main) {
-            val myURI = URI(uri)
-            val picture = File(myURI)
-            val requestFile = picture.asRequestBody("image/*".toMediaTypeOrNull())
-            val fileToUpload =
-                MultipartBody.Part.createFormData("avatar", picture.name, requestFile)
-            val res = ApiServices._instance.uploadUserImage(MyApp.appContext, fileToUpload)
-            response = res!!
-        }
-        return response
+        val myURI = URI(uri)
+        val picture = File(myURI)
+        val requestFile = picture.asRequestBody("image/*".toMediaTypeOrNull())
+        val fileToUpload =
+            MultipartBody.Part.createFormData("avatar", picture.name, requestFile)
+        val res = ApiServices._instance.uploadUserImage(MyApp.appContext, fileToUpload)
+        return res!!
+    }
+
+    suspend fun signOut(): String {
+        val res = ApiServices._instance.signOut(MyApp.appContext)
+        return res!!
     }
 }

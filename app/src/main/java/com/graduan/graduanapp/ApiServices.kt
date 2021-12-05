@@ -78,5 +78,17 @@ class ApiServices {
         }
     }
 
+    suspend fun signOut(context: Context?): String? {
+        val apiService = UserApi.getInstance()
+        val response = apiService.signOut(myToken())
+        if (response.code() == 200) {
+            return "Success"
+        } else {
+            Toast.makeText(context, R.string.connectionError, Toast.LENGTH_SHORT).show()
+            return ""
+        }
+    }
+
+
 
 }

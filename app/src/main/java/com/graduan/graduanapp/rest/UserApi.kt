@@ -24,7 +24,9 @@ interface UserApi {
     suspend fun getUserInfo(@Header("Authorization") auth: String): Response<UserModel>
 
     @POST("logout")
-    suspend fun signOut(): Response<AccessToken>
+    suspend fun signOut(
+        @Header("Authorization") auth: String
+    ): Response<ResponseBody>
 
     @POST("user")
     @FormUrlEncoded
