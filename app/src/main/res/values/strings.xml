@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">GraduanApp</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!-- Error Message -->
+    <string name="errorMessage_unableToConnect">Unable to get your current location, Please try again later.</string>
+    <string name="connectionError">There is no network connection right now. Please try again later.</string>
+    <string name="errorMessage_noConnectionAccessGoogleMap">Connect internet for more accurate in Google Map</string>
+    <string name="loginFailed">Incorrect email and/or password. Please try again.</string>
+    <string name="emptyEmail">Invalid email address, please try again.</string>
+    <string name="emptyUsername">Invalid username, please try again.</string>
+    <string name="emptyPassword">Invalid password, please try again.</string>
+    <string name="unableFoundCaseType">Unable found case type, please try again</string>
+    <string name="noPhotoUploadKey">Please upload or capture at least one picture</string>
+    <string name="errorMessage_InvalidLocationDetails">Please input location details.</string>
+    <string name="errorMessage_InvalidCaeDescription">Please input case description.</string>
+    <string name="ServerError">Unable connect server, please try again later</string>
+
+    <!-- Login Page -->
+    <string name="login_faild">The email and password you entered did not match our records.</string>
+</resources>
